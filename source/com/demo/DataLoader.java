@@ -13,10 +13,16 @@ import java.util.List;
  */
 public class DataLoader {
 
-    public DataLoader(WellRepository wellRepository) {
+    boolean isInitialized = false;
+
+    public DataLoader() {
         try {
             // Initialize the native library
             LASlibJNI.initialize();
+
+            isInitialized = true;
+
+            return;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -25,36 +31,37 @@ public class DataLoader {
     public List<Well> loadFromLas(String lasfile, Wellfield wellfield, Region region) {
         List<Well> result = new ArrayList<>();
 
-        long number = 0;
+        if (isInitialized) {
+            long number = 0;
 
-        // Get an instance of LASReader for provided file
-        try (LASReader reader = new LASReader(lasfile)) {
+            // Get an instance of LASReader for provided file
+            try (LASReader reader = new LASReader(lasfile)) {
 
-            // Get the header information of the file
-            LASHeader header = reader.getHeader();
+                // Get the header information of the file
+                LASHeader header = reader.getHeader();
 
-            // Check that the file is supported and in tact
-            if (header.check()) {
-                // Ok, read points
-                while (reader.readPoint()) {
-                    ++number;
+                // Check that the file is supported and in tact
+                if (header.check()) {
+                    // Ok, read points
+                    while (reader.readPoint()) {
+                        ++number;
 
-                    LASPoint point = reader.getPoint();
+                        LASPoint point = reader.getPoint();
 
-                    Well well = new Well(
-                            number,
-                            wellfield,
-                            region,
-                            point.getX(),
-                            point.getY(),
-                            point.getZ()
-                    );
+                        Well well = new Well(
+                                number,
+                                wellfield,
+                                region,
+                                point.getX(),
+                                point.getY(),
+                                point.getZ()
+                        );
 
-                    result.add(well);
+                        result.add(well);
+                    }
                 }
             }
         }
-
         return result;
     }
 

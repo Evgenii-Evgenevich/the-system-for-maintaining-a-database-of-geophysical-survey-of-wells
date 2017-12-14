@@ -13,33 +13,32 @@ import java.util.List;
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MyRestController {
 
-    private WellRepository repository;
+    private WellRepository wellRepository;
 
 
     public MyRestController(WellRepository repository){
-        this.repository = repository;
+        this.wellRepository = repository;
     }
 
     @GetMapping
     public List<Well> getWells() {
-        return repository.findAll();
+        return wellRepository.findAll();
     }
-
 
     @PostMapping
     public void newWell(Well entity) {
-        repository.save(entity);
+        wellRepository.save(entity);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public void editWell(Well entity) {
-        repository.save(entity);
+        wellRepository.save(entity);
     }
 
     @RequestMapping("/")
     @ResponseBody
-    String home() {
+    public String home() {
         return "Hello World!";
     }
 

@@ -2,10 +2,7 @@ package com.demo;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -20,11 +17,10 @@ public class Wellfield implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
     @NotNull
     private String title;
 
-    public String getTitle() {
-        return title;
-    }
+    @OneToOne(optional = false, mappedBy = "wellfield")
+    private Well well;
+
 }

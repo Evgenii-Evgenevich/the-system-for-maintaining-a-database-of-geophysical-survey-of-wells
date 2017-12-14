@@ -165,11 +165,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>com.esri.arcgisruntime</groupId>
             <artifactId>arcgis-java</artifactId>
             <version>100.1.0</version>
-        </dependency>
+        </dependency-->
 
     </dependencies>
 
@@ -180,7 +180,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!--ArcGIS Java Maven Plugin-->
+            <!--ArcGIS Java Maven Plugin- ->
             <plugin>
                 <groupId>com.esri.arcgisruntime</groupId>
                 <artifactId>arcgis-java-maven-plugin</artifactId>
@@ -188,7 +188,7 @@
                 <configuration>
                     <version>100.1.0</version>
                 </configuration>
-            </plugin>
+            </plugin-->
 
         </plugins>
     </build>

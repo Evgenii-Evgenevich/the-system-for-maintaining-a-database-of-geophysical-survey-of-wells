@@ -8,6 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -15,7 +16,7 @@ import javax.servlet.annotation.WebServlet;
  * Created by EE on 13.12.2017.
  */
 @SpringUI
-@Title("The SfMDoGSoWalls")
+@Title("The SfMDoGSoWells")
 @Theme("valo")
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 public class MyVaadinUI extends UI {
@@ -24,6 +25,9 @@ public class MyVaadinUI extends UI {
     @VaadinServletConfiguration(ui = MyVaadinUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
+
+    @Autowired
+    WellRepository wellRepository;
 
     @Override
     protected void init(VaadinRequest request) {
