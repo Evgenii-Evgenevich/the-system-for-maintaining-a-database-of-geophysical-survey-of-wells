@@ -23,4 +23,8 @@ public class Wellfield implements Serializable {
     @OneToOne(optional = false, mappedBy = "wellfield")
     private Well well;
 
+    public Wellfield(String title) {
+        this.title = title;
+    }
+
 }

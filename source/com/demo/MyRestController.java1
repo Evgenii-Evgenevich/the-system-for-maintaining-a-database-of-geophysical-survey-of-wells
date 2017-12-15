@@ -8,16 +8,22 @@ import java.util.List;
 
 /**
  * Created by EE on 13.12.2017.
- */
+ *//*
 @RestController
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MyRestController {
 
-    private WellRepository wellRepository;
+    WellRepository wellRepository;
+
+    WellRepository.RegionRepository regionRepository;
+
+    WellRepository.WellfieldRepository wellfieldRepository;
 
 
-    public MyRestController(WellRepository repository){
-        this.wellRepository = repository;
+    public MyRestController(WellRepository wellRepository, WellRepository.RegionRepository regionRepository, WellRepository.WellfieldRepository wellfieldRepository) {
+        this.wellRepository = wellRepository;
+        this.regionRepository = regionRepository;
+        this.wellfieldRepository = wellfieldRepository;
     }
 
     @GetMapping
@@ -43,3 +49,4 @@ public class MyRestController {
     }
 
 }
+*/
