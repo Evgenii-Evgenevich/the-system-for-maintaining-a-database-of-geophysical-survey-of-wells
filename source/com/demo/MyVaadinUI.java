@@ -3,8 +3,7 @@ package com.demo;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.*;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,29 +57,32 @@ public class MyVaadinUI extends UI {
         }
 
         public void uploadSucceeded(Upload.SucceededEvent event) {
-            String wellfieldName = wellfieldTextField.getValue();
+            if (file != null) {
+                String filename = file.getAbsolutePath().toString();
+                String wellfieldName = wellfieldTextField.getValue();
 
-            Wellfield wellfield = wellfieldRepository.findFirstByTitle(wellfieldName);
+                Wellfield wellfield = wellfieldRepository.findFirstByTitle(wellfieldName);
 
-            if (wellfield == null) {
-                wellfield = new Wellfield(wellfieldName);
+                if (wellfield == null) {
+                    wellfield = new Wellfield(wellfieldName);
 
-                wellfieldRepository.save(wellfield);
+                    wellfieldRepository.save(wellfield);
+                }
+
+                String regionName = regionTextField.getValue();
+
+                Region region = regionRepository.findFirstByName(regionName);
+
+                if (region == null) {
+                    region = new Region(regionName);
+
+                    regionRepository.save(region);
+                }
+
+                List<Well> wellResult = DataLoader.loadFromLas(filename, wellfield, region);
+
+                wellRepository.save(wellResult);
             }
-
-            String regionName = regionTextField.getValue();
-
-            Region region = regionRepository.findFirstByName(regionName);
-
-            if (region == null) {
-                region = new Region(regionName);
-
-                regionRepository.save(region);
-            }
-
-            List<Well> wellResult = DataLoader.loadFromLas(event.getFilename(), wellfield, region);
-
-            wellRepository.save(wellResult);
         }
     }
 
@@ -90,6 +92,13 @@ public class MyVaadinUI extends UI {
     RegionRepository regionRepository;
     @Autowired
     WellfieldRepository wellfieldRepository;
+
+    @Autowired
+    public MyVaadinUI(WellRepository wellRepository, RegionRepository regionRepository, WellfieldRepository wellfieldRepository) {
+        this.wellRepository = wellRepository;
+        this.regionRepository = regionRepository;
+        this.wellfieldRepository = wellfieldRepository;
+    }
 
     Region currentRegion;
     Wellfield currentWellfield;
@@ -170,6 +179,23 @@ public class MyVaadinUI extends UI {
     }
 
     private void download() {
+        String filename = currentRegion.getName() + "_" + currentWellfield.getTitle() + ".las";
+
+        ServletContext sCtx = VaadinServlet.getCurrent().getServletContext();
+        String dirName = sCtx.getRealPath("tmp");
+        File dir = new File(dirName);
+        if (!dir.exists()) dir.mkdirs();
+
+        String pathString = dirName + "//" + filename;
+
+        List<Well> wells = wellRepository.findAllByRegionAndWellfield(currentRegion, currentWellfield);
+
+        if (DataLoader.saveToLas(wells, pathString)) {
+            Resource res = new FileResource(new File(pathString));
+            setResource("download", res);
+            ResourceReference rr = ResourceReference.create(res, this, "download");
+            Page.getCurrent().open(rr.getURL(), null);
+        }
     }
 
 }

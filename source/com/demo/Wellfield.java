@@ -20,8 +20,14 @@ public class Wellfield implements Serializable {
     @NotNull
     private String title;
 
+    public String getTitle() {
+        return title;
+    }
+
     @OneToOne(optional = false, mappedBy = "wellfield")
     private Well well;
+
+    public Wellfield() {}
 
     public Wellfield(String title) {
         this.title = title;

@@ -19,7 +19,7 @@ public class DataLoader {
 
     private boolean initialized = false;
 
-    private WellRepository wellRepository;
+    /*private WellRepository wellRepository;
 
     public boolean isInitialized() {
         return initialized;
@@ -38,7 +38,7 @@ public class DataLoader {
         }
 
         this.wellRepository = wellRepository;
-    }
+    }*/
 
     public List<Well> loadFromLas0ld(String lasfile, Wellfield wellfield, Region region) {
         List<Well> result = new ArrayList<>();

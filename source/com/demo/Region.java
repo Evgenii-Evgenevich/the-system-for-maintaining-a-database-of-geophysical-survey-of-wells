@@ -27,6 +27,8 @@ public class Region implements Serializable {
     @OneToOne(optional = false, mappedBy = "region")
     private Well well;
 
+    public Region() {}
+
     public Region(String name) {
         this.name = name;
     }
