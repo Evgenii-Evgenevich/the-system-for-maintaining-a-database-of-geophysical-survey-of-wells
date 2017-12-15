@@ -23,6 +23,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <vaadin.version>8.1.0</vaadin.version>
+        <junit.version>4.11</junit.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencyManagement>
@@ -170,6 +172,24 @@
             <artifactId>arcgis-java</artifactId>
             <version>100.1.0</version>
         </dependency-->
+
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
 
     </dependencies>
 
